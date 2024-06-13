@@ -392,7 +392,7 @@ class Core: NSObject, UIGestureRecognizerDelegate {
         case scrollView?.panGestureRecognizer:
             guard let scrollView = scrollView else { return }
 
-            let velocity = value(of: panGesture.velocity(in: panGesture.view))
+            let velocity = value(of: panGesture.velocity(in: panGesture.view!))
             let location = panGesture.location(in: surfaceView)
 
             let insideMostExpandedAnchor = 0 < layoutAdapter.offsetFromMostExpandedAnchor
@@ -508,9 +508,9 @@ class Core: NSObject, UIGestureRecognizerDelegate {
         case panGestureRecognizer:
             let translation = panGesture.translation(in: panGestureRecognizer.view!.superview)
             // The touch velocity in the surface view
-            let velocity = panGesture.velocity(in: panGesture.view)
+            let velocity = panGesture.velocity(in: panGesture.view!)
             // The touch location in the surface view
-            let location = panGesture.location(in: panGesture.view)
+            let location = panGesture.location(in: panGesture.view!)
 
             os_log(msg, log: devLog, type: .debug, """
                 panel gesture(\(state):\(panGesture.state)) -- \
@@ -1227,7 +1227,7 @@ public final class FloatingPanelPanGestureRecognizer: UIPanGestureRecognizer {
 
     public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent) {
         super.touchesBegan(touches, with: event)
-        initialLocation = touches.first?.location(in: view) ?? .zero
+        initialLocation = touches.first?.location(in: view!) ?? .zero
         if floatingPanel.transitionAnimator != nil || floatingPanel.moveAnimator != nil {
             self.state = .began
         }
